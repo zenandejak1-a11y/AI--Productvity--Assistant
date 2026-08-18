@@ -69,11 +69,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[270px] flex-col justify-between border-r border-sidebar-border bg-sidebar px-4 py-5 lg:flex">
         <div className="space-y-6">
-          <Brand />
+          <Brand onSidebar />
           <NavLinks />
         </div>
-        <div className="rounded-xl bg-muted/70 p-3 text-[11px] leading-relaxed text-muted-foreground">
-          <ShieldAlert className="mb-1.5 size-4 text-primary" />
+        <div className="rounded-xl border-t border-sidebar-border pt-3 text-[11px] leading-relaxed text-sidebar-foreground/70">
+          <ShieldAlert className="mb-1.5 size-4 text-sidebar-primary" />
           Avoid entering sensitive or confidential information. Always verify AI output.
         </div>
       </aside>
