@@ -22,7 +22,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
               "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
               active
                 ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-card"
-                : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                : "text-sidebar-foreground/75 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
             )}
           >
             <item.icon
@@ -39,15 +39,19 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function Brand() {
+function Brand({ onSidebar = false }: { onSidebar?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-3 px-1 py-1">
       <span className="grid size-9 place-items-center rounded-xl bg-gradient-brand shadow-card">
         <Sparkles className="size-[18px] text-primary-foreground" />
       </span>
       <span className="leading-tight">
-        <span className="block font-display text-sm font-bold">AI Workplace</span>
-        <span className="block text-xs text-muted-foreground">Productivity Assistant</span>
+        <span className={cn("block font-display text-sm font-bold", onSidebar && "text-sidebar-accent-foreground")}>
+          AI Workplace
+        </span>
+        <span className={cn("block text-xs", onSidebar ? "text-sidebar-foreground/65" : "text-muted-foreground")}>
+          Productivity Assistant
+        </span>
       </span>
     </Link>
   );
@@ -65,11 +69,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[270px] flex-col justify-between border-r border-sidebar-border bg-sidebar px-4 py-5 lg:flex">
         <div className="space-y-6">
-          <Brand />
+          <Brand onSidebar />
           <NavLinks />
         </div>
-        <div className="rounded-xl bg-muted/70 p-3 text-[11px] leading-relaxed text-muted-foreground">
-          <ShieldAlert className="mb-1.5 size-4 text-primary" />
+        <div className="rounded-xl border-t border-sidebar-border pt-3 text-[11px] leading-relaxed text-sidebar-foreground/70">
+          <ShieldAlert className="mb-1.5 size-4 text-sidebar-primary" />
           Avoid entering sensitive or confidential information. Always verify AI output.
         </div>
       </aside>
@@ -85,7 +89,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <SheetContent side="left" className="w-[280px] bg-sidebar px-4 py-5">
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <div className="space-y-6">
-                <Brand />
+                <Brand onSidebar />
+
                 <NavLinks onNavigate={() => setOpen(false)} />
               </div>
             </SheetContent>
