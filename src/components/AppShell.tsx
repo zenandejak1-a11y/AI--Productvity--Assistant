@@ -39,15 +39,19 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function Brand() {
+function Brand({ onSidebar = false }: { onSidebar?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-3 px-1 py-1">
       <span className="grid size-9 place-items-center rounded-xl bg-gradient-brand shadow-card">
         <Sparkles className="size-[18px] text-primary-foreground" />
       </span>
       <span className="leading-tight">
-        <span className="block font-display text-sm font-bold">AI Workplace</span>
-        <span className="block text-xs text-muted-foreground">Productivity Assistant</span>
+        <span className={cn("block font-display text-sm font-bold", onSidebar && "text-sidebar-accent-foreground")}>
+          AI Workplace
+        </span>
+        <span className={cn("block text-xs", onSidebar ? "text-sidebar-foreground/65" : "text-muted-foreground")}>
+          Productivity Assistant
+        </span>
       </span>
     </Link>
   );
