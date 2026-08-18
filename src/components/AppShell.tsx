@@ -22,7 +22,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
               "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
               active
                 ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-card"
-                : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                : "text-sidebar-foreground/75 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
             )}
           >
             <item.icon
