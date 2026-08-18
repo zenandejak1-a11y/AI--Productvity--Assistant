@@ -89,7 +89,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             <SheetContent side="left" className="w-[280px] bg-sidebar px-4 py-5">
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <div className="space-y-6">
-                <Brand />
+                <Brand onSidebar />
+
                 <NavLinks onNavigate={() => setOpen(false)} />
               </div>
             </SheetContent>
