@@ -7,12 +7,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 type Props = {
   value: string;
   onChange: (value: string) => void;
-  onRegenerate?: () => void;
+  onRegenerate?: (() => void) | undefined;
   onClear: () => void;
   loading: boolean;
-  error?: string | null;
+  error?: string | null | undefined;
   emptyHint: string;
-  title?: string;
+  title?: string | undefined;
 };
 
 export function OutputPanel({
