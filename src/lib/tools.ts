@@ -21,19 +21,19 @@ export const TOOLS: Required<NavItem>[] = [
     label: "Smart Email Generator",
     to: "/email",
     icon: Mail,
-    description: "Draft clear, on-tone workplace emails from a few notes.",
+    description: "Draft polished emails in seconds with tone control.",
   },
   {
     label: "Meeting Notes Summarizer",
     to: "/meetings",
     icon: FileText,
-    description: "Turn messy notes into summaries, decisions and action items.",
+    description: "Turn raw transcripts into decisions and action items.",
   },
   {
     label: "AI Task Planner",
     to: "/tasks",
     icon: ListChecks,
-    description: "Prioritize your workload and get a realistic schedule.",
+    description: "Prioritize your day using urgency + importance.",
   },
   {
     label: "AI Research Assistant",
