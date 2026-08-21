@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowRight, Clock, Sparkles, ShieldCheck, Zap } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -31,15 +32,36 @@ const STATS = [
   { icon: ShieldCheck, value: "100%", label: "Reliable & private" },
 ];
 
-function greeting() {
-  const h = new Date().getHours();
+function greeting(h: number) {
   if (h < 12) return "Good Morning";
   if (h < 18) return "Good Afternoon";
   return "Good Evening";
 }
 
+function useGreeting() {
+  const [text, setText] = useState("Hello, there 👋");
+
+  useEffect(() => {
+    let name = "there";
+    try {
+      const raw = localStorage.getItem("aiwpa-prefs");
+      if (raw) {
+        const parsed = JSON.parse(raw) as { name?: string };
+        const first = parsed.name?.trim().split(/\s+/)[0];
+        if (first) name = first;
+      }
+    } catch {
+      /* ignore malformed preferences */
+    }
+    setText(`${greeting(new Date().getHours())}, ${name} 👋`);
+  }, []);
+
+  return text;
+}
+
 function Dashboard() {
   const tools = TOOLS.slice(0, 3);
+  const greetingText = useGreeting();
 
   return (
     <AppShell>
