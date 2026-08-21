@@ -119,7 +119,7 @@ function ChatPage() {
                 <Sparkles className="size-5 text-primary-foreground" />
               </span>
               <p className="text-sm font-medium text-foreground">
-                Hi {useDisplayName()} 👋
+                Hi {displayName} 👋
               </p>
               <p className="text-sm text-muted-foreground">
                 How can I help you today?
