@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, MessagesSquare, Send, Trash2, User, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -30,14 +31,30 @@ export const Route = createFileRoute("/chat")({
 
 type Message = { role: "user" | "assistant"; content: string };
 
-const SUGGESTIONS = [
-  "How do I run a shorter, more focused weekly team meeting?",
-  "Help me structure my inbox routine so I check email twice a day.",
-  "What's a good way to say no to extra work politely?",
-];
+const PREFS_KEY = "aiwpa-prefs";
+
+function useDisplayName() {
+  const [name, setName] = useState("there");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PREFS_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { name?: string };
+        const first = parsed.name?.trim().split(/\s+/)[0];
+        if (first) setName(first);
+      }
+    } catch {
+      /* ignore malformed preferences */
+    }
+  }, []);
+
+  return name;
+}
 
 function ChatPage() {
   const call = useServerFn(runAiChat);
+  const displayName = useDisplayName();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -97,25 +114,16 @@ function ChatPage() {
 
         <div className="flex-1 space-y-4 overflow-y-auto px-4 py-5">
           {messages.length === 0 ? (
-            <div className="mx-auto max-w-md space-y-4 py-6 text-center">
+            <div className="mx-auto max-w-md space-y-3 py-10 text-center">
               <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-gradient-brand shadow-card">
                 <Sparkles className="size-5 text-primary-foreground" />
               </span>
-              <p className="text-sm text-muted-foreground">
-                Ask anything about working more productively. Try one of these:
+              <p className="text-sm font-medium text-foreground">
+                Hi {displayName} 👋
               </p>
-              <div className="flex flex-col gap-2">
-                {SUGGESTIONS.map((s) => (
-                  <Button
-                    key={s}
-                    variant="outline"
-                    className="h-auto whitespace-normal py-2 text-left text-sm"
-                    onClick={() => void send(s)}
-                  >
-                    {s}
-                  </Button>
-                ))}
-              </div>
+              <p className="text-sm text-muted-foreground">
+                How can I help you today?
+              </p>
             </div>
           ) : (
             messages.map((m, i) => (
@@ -133,10 +141,14 @@ function ChatPage() {
                     "max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
                     m.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-foreground",
+                      : "bg-muted text-foreground prose prose-sm max-w-none",
                   )}
                 >
-                  {m.content}
+                  {m.role === "assistant" ? (
+                    <ReactMarkdown>{m.content}</ReactMarkdown>
+                  ) : (
+                    m.content
+                  )}
                 </div>
                 {m.role === "user" ? (
                   <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl bg-secondary text-secondary-foreground">
