@@ -66,7 +66,7 @@ function Dashboard() {
   return (
     <AppShell>
       <section className="mb-6">
-        <h1 className="text-xl font-bold sm:text-2xl">{greeting()}, Zenande 👋</h1>
+        <h1 className="text-xl font-bold sm:text-2xl">{greetingText}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Ready to get some work done? Let your AI workplace assistant handle the repetitive stuff.
         </p>
