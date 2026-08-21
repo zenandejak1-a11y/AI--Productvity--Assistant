@@ -31,11 +31,26 @@ export const Route = createFileRoute("/chat")({
 
 type Message = { role: "user" | "assistant"; content: string };
 
-const SUGGESTIONS = [
-  "How do I run a shorter, more focused weekly team meeting?",
-  "Help me structure my inbox routine so I check email twice a day.",
-  "What's a good way to say no to extra work politely?",
-];
+const PREFS_KEY = "aiwpa-prefs";
+
+function useDisplayName() {
+  const [name, setName] = useState("there");
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PREFS_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { name?: string };
+        const first = parsed.name?.trim().split(/\s+/)[0];
+        if (first) setName(first);
+      }
+    } catch {
+      /* ignore malformed preferences */
+    }
+  }, []);
+
+  return name;
+}
 
 function ChatPage() {
   const call = useServerFn(runAiChat);
