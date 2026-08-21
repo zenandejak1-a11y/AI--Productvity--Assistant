@@ -54,6 +54,7 @@ function useDisplayName() {
 
 function ChatPage() {
   const call = useServerFn(runAiChat);
+  const displayName = useDisplayName();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
